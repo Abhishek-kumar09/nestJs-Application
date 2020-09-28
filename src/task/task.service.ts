@@ -1,4 +1,4 @@
-import { Injectable, Get } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Task, TaskStatus } from './task.model';
 import { v1 as uuid } from 'uuid';
 
@@ -17,7 +17,6 @@ export class TaskService {
             description,
             status: TaskStatus.OPEN
         }
-
         this.tasks.push(task);
         return task;
     }
@@ -30,6 +29,12 @@ export class TaskService {
     deleteTaskbyId(id: string): Task[] {
         this.tasks = this.tasks.filter(task => task.id != id);
         return this.tasks;
+    }
+
+    updateTaskStatus(id: string, status: TaskStatus): Task {
+        const task = this.findTaskbyId(id);
+        task.status = status;
+        return task;
     }
 
 }
